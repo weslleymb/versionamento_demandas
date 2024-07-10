@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
+CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia675634`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
 BEGIN
 
     DECLARE VAR_PROCEDURE DEFAULT 'prc_load_tb_abrangencia';
@@ -19,7 +19,7 @@ BEGIN
         --: Variaveis desenvolvimento
         --SET VAR_DELTA_INI = ;
         --SET VAR_DELTA_FIM = ;
-        --SET VAR_ID_CARD = '';
+        SET VAR_ID_CARD = '';
         ------------------------------------------
 
 
@@ -45,9 +45,9 @@ BEGIN
         FROM (
             SELECT '51315' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
             SELECT '46784' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
-            --SELECT '57893' AS codigo, CAST(10.0 AS NUMERIC) AS percentual_ideal UNION ALL
+            SELECT '57893' AS codigo, CAST(10.0 AS NUMERIC) AS percentual_ideal UNION ALL
             SELECT '65342' AS codigo, CAST(21.0 AS NUMERIC) AS percentual_ideal
-        ) AS origem_percentual_ideal_arq""";
+        ) AS origem_percentual_ideal_hub""";
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_trg AS 
