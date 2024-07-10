@@ -3,5 +3,6 @@ CREATE TABLE `teste.tb_abrangencia986523` (
     codigo            STRING,
     flg_trg           BOOLEAN,
     flg_bnf           BOOLEAN,
-    percentual_ideal  NUMERIC
+    percentual_ideal  NUMERIC,
+    catalogo          BOOLEAN
 );

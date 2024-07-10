@@ -29,14 +29,14 @@ BEGIN
         FROM (
         SELECT 
             'ABC-123' AS chave
-            , '[{"cod":"51315"},{"cod":"51315 "}]' AS material_trg
-            , '[{"cod":"51315","perc":20.0}]' AS material_bnf
+            , '[{"cod":"51315", "cat": true},{"cod":"51315 ", "cat": true}]' AS material_trg
+            , '[{"cod":"51315", "cat": true,"perc":20.0}]' AS material_bnf
         UNION ALL
         SELECT 
             'DEF-456' AS codigo
-            , '[{"cod":"46784"},{"cod":"57893"}]' AS material_trg
-            , '[{"cod":"65342","perc":20.0},{"cod":"57893","perc":5.0}]' AS material_bnf
-        ) AS dataset_tb_origem;
+            , '[{"cod":"46784", "cat": false},{"cod":"57893", "cat": true}]' AS material_trg
+            , '[{"cod":"65342", "cat": false,"perc":20.0},{"cod":"57893", "cat": true,"perc":5.0}]' AS material_bnf
+        ) AS dataset_HML_tb_origem;
         """;
 
         EXECUTE IMMEDIATE """
@@ -54,6 +54,7 @@ BEGIN
         SELECT DISTINCT
             chave
             , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
+            , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_trg, 'None', '"None"'))) AS material
         ;
@@ -64,6 +65,7 @@ BEGIN
         SELECT DISTINCT
             chave
             , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
+            , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
             , JSON_EXTRACT_SCALAR(material, '$.perc') AS percentual
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_bnf, 'None', '"None"'))) AS material
@@ -72,9 +74,9 @@ BEGIN
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_base AS 
-        SELECT DISTINCT chave, codigo FROM tmp_material_promo_trg
+        SELECT DISTINCT chave, codigo, catalogo FROM tmp_material_promo_trg
         UNION DISTINCT
-        SELECT DISTINCT chave, codigo FROM tmp_material_promo_bnf
+        SELECT DISTINCT chave, codigo, catalogo FROM tmp_material_promo_bnf
         ;
         """;
 
@@ -86,6 +88,7 @@ BEGIN
             , CASE WHEN trg.codigo IS NULL THEN FALSE ELSE TRUE END AS flg_trg
             , CASE WHEN bnf.codigo IS NULL THEN FALSE ELSE TRUE END AS flg_bnf
             , IFNULL(prc.percentual_ideal, CAST(bnf.percentual AS NUMERIC)) AS percentual_ideal
+            , base.catalogo
         FROM tmp_material_promo_base AS base
 
             LEFT JOIN tmp_material_promo_trg AS trg
@@ -106,7 +109,7 @@ BEGIN
 
         EXECUTE IMMEDIATE """
         INSERT INTO `""" || VAR_PRJ_TRUSTED || """.teste.tb_abrangencia""" || VAR_ID_CARD || """` 
-        SELECT DISTINCT chave, codigo, flg_trg, flg_bnf, percentual_ideal
+        SELECT DISTINCT chave, codigo, flg_trg, flg_bnf, percentual_ideal, catalogo
         FROM tmp_abrangencia AS origem
         """;
 
