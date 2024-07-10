@@ -101,11 +101,11 @@ BEGIN
         """;
 
         EXECUTE IMMEDIATE """
-        TRUNCATE TABLE """ || VAR_PRJ_TRUSTED || """.teste.tb_abrangencia;
+        TRUNCATE TABLE """ || VAR_PRJ_TRUSTED || """.teste.tb_abrangencia""" || VAR_ID_CARD || """;
         """;
 
         EXECUTE IMMEDIATE """
-        INSERT INTO `""" || VAR_PRJ_TRUSTED || """.teste.tb_abrangencia` 
+        INSERT INTO `""" || VAR_PRJ_TRUSTED || """.teste.tb_abrangencia""" || VAR_ID_CARD || """` 
         SELECT DISTINCT chave, codigo, flg_trg, flg_bnf, percentual_ideal
         FROM tmp_abrangencia AS origem
         """;
