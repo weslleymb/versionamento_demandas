@@ -25,6 +25,8 @@ BEGIN
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_origem_material_promo AS 
+        SELECT *
+        FROM (
         SELECT 
             'ABC-123' AS chave
             , '[{"cod":"51315"},{"cod":"51315 "}]' AS material_trg
@@ -34,7 +36,7 @@ BEGIN
             'DEF-456' AS codigo
             , '[{"cod":"46784"},{"cod":"57893"}]' AS material_trg
             , '[{"cod":"65342","perc":20.0},{"cod":"57893","perc":5.0}]' AS material_bnf
-        ;
+        ) AS dataset_tb_origem;
         """;
 
         EXECUTE IMMEDIATE """
