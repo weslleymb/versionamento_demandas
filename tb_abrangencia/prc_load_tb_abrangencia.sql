@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
+CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia876594`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
 BEGIN
 
     DECLARE VAR_PROCEDURE DEFAULT 'prc_load_tb_abrangencia';
@@ -19,7 +19,7 @@ BEGIN
         --: Variaveis desenvolvimento
         --SET VAR_DELTA_INI = ;
         --SET VAR_DELTA_FIM = ;
-        --SET VAR_ID_CARD = '';
+        SET VAR_ID_CARD = '876594';
         ------------------------------------------
 
 
@@ -72,9 +72,9 @@ BEGIN
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_base AS 
-        SELECT DISTINCT chave, codigo FROM tmp_material_promo_trg
+        SELECT DISTINCT chave, TRIM(codigo) AS codigo FROM tmp_material_promo_trg
         UNION DISTINCT
-        SELECT DISTINCT chave, codigo FROM tmp_material_promo_bnf
+        SELECT DISTINCT chave, TRIM(codigo) FROM tmp_material_promo_bnf
         ;
         """;
 
