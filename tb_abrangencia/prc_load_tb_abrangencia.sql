@@ -74,9 +74,9 @@ BEGIN
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_base AS 
-        SELECT DISTINCT chave, codigo, catalogo FROM tmp_material_promo_trg
+        SELECT DISTINCT chave, TRIM(codigo) AS codigo, catalogo FROM tmp_material_promo_trg
         UNION DISTINCT
-        SELECT DISTINCT chave, codigo, catalogo FROM tmp_material_promo_bnf
+        SELECT DISTINCT chave, TRIM(codigo), catalogo FROM tmp_material_promo_bnf
         ;
         """;
 
