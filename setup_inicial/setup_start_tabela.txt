@@ -1,0 +1,63 @@
+
+DROP TABLE IF EXISTS `teste.raw_promo`;
+
+CREATE TABLE `teste.raw_promo` (
+    chave             STRING,
+    material_trg      STRING,
+    material_bnf      STRING
+);
+
+INSERT INTO `teste.raw_promo`
+SELECT *
+FROM (
+SELECT 
+    'ABC-123' AS chave
+    , '[{"cod":"51315"},{"cod":"51315 "}]' AS material_trg
+    , '[{"cod":"51315","perc":20.0}]' AS material_bnf
+UNION ALL
+SELECT 
+    'DEF-456' AS codigo
+    , '[{"cod":"46784"},{"cod":"57893"}]' AS material_trg
+    , '[{"cod":"65342","perc":20.0},{"cod":"57893","perc":5.0}]' AS material_bnf
+) AS promo;
+
+#
+
+DROP TABLE IF EXISTS `teste.raw_percentual_ideal_arq`;
+
+CREATE TABLE `teste.raw_percentual_ideal_arq` (
+    codigo            STRING,
+    percentual_ideal  NUMERIC
+);
+
+INSERT INTO `teste.raw_percentual_ideal_arq`
+SELECT *
+FROM (
+    SELECT '51315' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
+    SELECT '46784' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
+    SELECT '65342' AS codigo, CAST(21.0 AS NUMERIC) AS percentual_ideal
+) AS percentual_ideal_arq;
+
+#
+
+DROP TABLE IF EXISTS `teste.raw_percentual_ideal_hub`;
+
+CREATE TABLE `teste.raw_percentual_ideal_hub` (
+    codigo            STRING,
+    percentual_ideal  NUMERIC
+);
+
+INSERT INTO `teste.raw_percentual_ideal_hub`
+SELECT *
+FROM (
+    SELECT '51315' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
+    SELECT '46784' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
+    SELECT '57893' AS codigo, CAST(10.0 AS NUMERIC) AS percentual_ideal UNION ALL
+    SELECT '65342' AS codigo, CAST(21.0 AS NUMERIC) AS percentual_ideal
+) AS percentual_ideal_hub;
+
+SELECT * FROM teste.raw_promo;
+
+SELECT * FROM teste.raw_percentual_ideal_arq;
+
+SELECT * FROM teste.raw_percentual_ideal_hub;
