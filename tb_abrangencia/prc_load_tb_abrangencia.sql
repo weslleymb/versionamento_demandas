@@ -26,34 +26,19 @@ BEGIN
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_origem_material_promo AS 
         SELECT *
-        FROM (
-        SELECT 
-            'ABC-123' AS chave
-            , '[{"cod":"51315"},{"cod":"51315 "}]' AS material_trg
-            , '[{"cod":"51315","perc":20.0}]' AS material_bnf
-        UNION ALL
-        SELECT 
-            'DEF-456' AS codigo
-            , '[{"cod":"46784"},{"cod":"57893"}]' AS material_trg
-            , '[{"cod":"65342","perc":20.0},{"cod":"57893","perc":5.0}]' AS material_bnf
-        ) AS dataset_tb_origem;
+        FROM """ || VAR_PRJ_RAW || """.teste.raw_promo;
         """;
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_percentual_ideal AS 
         SELECT *
-        FROM (
-            SELECT '51315' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
-            SELECT '46784' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
-            --SELECT '57893' AS codigo, CAST(10.0 AS NUMERIC) AS percentual_ideal UNION ALL
-            SELECT '65342' AS codigo, CAST(21.0 AS NUMERIC) AS percentual_ideal
-        ) AS origem_percentual_ideal_arq""";
+        FROM """ || VAR_PRJ_RAW || """.teste.raw_percentual_ideal_arq""";
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_trg AS 
         SELECT DISTINCT
             chave
-            , TRIM(JSON_EXTRACT_SCALAR(material, '$.cod')) AS codigo
+            , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_trg, 'None', '"None"'))) AS material
         ;
@@ -63,7 +48,7 @@ BEGIN
         CREATE TEMP TABLE tmp_material_promo_bnf AS 
         SELECT DISTINCT
             chave
-            , TRIM(JSON_EXTRACT_SCALAR(material, '$.cod')) AS codigo
+            , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
             , JSON_EXTRACT_SCALAR(material, '$.perc') AS percentual
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_bnf, 'None', '"None"'))) AS material
