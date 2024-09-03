@@ -1,0 +1,39 @@
+
+# iniciar/reiniciar o ambiente
+--: setup_start = setup_start_origem.txt e setup_start_procedure.txt
+-- utilize os scripts dos arquivos setup_start para mergear ddl e proc na branch main.
+-- execute os scripts dos arquivos setup_start no bigquery para definir ddl e proc em producao.
+-- delete pull requests e branches que nao sejam a main no github.
+-- utilize os scripts do arquivo setup_demanda_123.txt para criar branch e pr 123 e bild de ddl e proc no bigquery.
+-- utilize os scripts do arquivo setup_demanda_456.txt para criar branch e pr 456 e bild de ddl e proc no bigquery.
+-- utilize os scripts do arquivo setup_demanda_789.txt como demo na apresentacao.
+
+CALL `sandbox-gcam.sp.prc_load_tb_abrangencia`('sandbox-gcam', 'sandbox-gcam');
+
+[GCAM - Divergência de Dados  - Abrangência]
+Desconto divergente
+Gerou o card 123
+123-tb_abrangencia-desconto_ideal
+de origem_percentual_ideal_arq para origem_percentual_ideal_hub
+CALL `sandbox-gcam.sp.prc_load_tb_abrangencia123`('sandbox-gcam', 'sandbox-gcam');
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia WHERE codigo = '57893';
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia123 WHERE codigo = '57893';
+  SELECT * FROM sandbox-gcam.teste.tb_abrangencia123 WHERE chave = 'ABC-123';
+
+[GCAM - Melhoria  - Abrangência]
+Marcador catálogo
+Gerou o card 456
+456-tb_abrangencia-flag_catalogo
+inclusao campo catalogo
+CALL `sandbox-gcam.sp.prc_load_tb_abrangencia456`('sandbox-gcam', 'sandbox-gcam');
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia;
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia456;
+
+[GCAM - Divergência de Dados  - Abrangência]
+Duplicidade
+Gerou o card 789
+789-tb_abrangencia-dedup_sku_espaco
+remocao espaco codigo
+CALL `sandbox-gcam.sp.prc_load_tb_abrangencia789`('sandbox-gcam', 'sandbox-gcam');
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia WHERE chave = 'ABC-123';
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia789 WHERE chave = 'ABC-123';
