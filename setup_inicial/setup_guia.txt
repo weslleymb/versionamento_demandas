@@ -1,11 +1,12 @@
 
 # iniciar/reiniciar o ambiente
 --: setup_start = setup_start_origem.txt e setup_start_procedure.txt
--- utilize os scripts dos arquivos setup_start para mergear ddl e proc na branch main.
--- execute os scripts dos arquivos setup_start no bigquery para definir ddl e proc em producao.
+-- utilize os scripts do arquivo setup_start_origem.txt para criar as origens.
+-- execute os scripts do arquivo setup_start_procedure.txt no bigquery para criar ou resetar ddl e procedure.
+-- utilize os mesmos scripts do arquivo setup_start_procedure.txt agora para commitar na branch main do github e resetar ddl e procedure.
 -- delete pull requests e branches que nao sejam a main no github.
--- utilize os scripts do arquivo setup_demanda_123.txt para criar branch e pr 123 e bild de ddl e proc no bigquery.
--- utilize os scripts do arquivo setup_demanda_456.txt para criar branch e pr 456 e bild de ddl e proc no bigquery.
+-- utilize os scripts do arquivo setup_demanda_123.txt para criar branch e pr 123 e build de ddl e proc no bigquery.
+-- utilize os scripts do arquivo setup_demanda_456.txt para criar branch e pr 456 e build de ddl e proc no bigquery.
 -- utilize os scripts do arquivo setup_demanda_789.txt como demo na apresentacao.
 
 CALL `sandbox-gcam.sp.prc_load_tb_abrangencia`('sandbox-gcam', 'sandbox-gcam');
