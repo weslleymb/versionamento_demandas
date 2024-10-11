@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
+CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia789987`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
 BEGIN
 
     DECLARE VAR_PROCEDURE DEFAULT 'prc_load_tb_abrangencia';
@@ -19,20 +19,35 @@ BEGIN
         --: Variaveis desenvolvimento
         --SET VAR_DELTA_INI = ;
         --SET VAR_DELTA_FIM = ;
-        --SET VAR_ID_CARD = '';
+        SET VAR_ID_CARD = '789987';
         ------------------------------------------
 
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_origem_material_promo AS 
         SELECT *
-        FROM """ || VAR_PRJ_RAW || """.teste.raw_promo;
+        FROM (
+        SELECT 
+            'ABC-123' AS chave
+            , '[{"cod":"51315"},{"cod":"51315 "}]' AS material_trg
+            , '[{"cod":"51315","perc":20.0}]' AS material_bnf
+        UNION ALL
+        SELECT 
+            'DEF-456' AS codigo
+            , '[{"cod":"46784"},{"cod":"57893"}]' AS material_trg
+            , '[{"cod":"65342","perc":20.0},{"cod":"57893","perc":5.0}]' AS material_bnf
+        ) AS dataset_tb_origem;
         """;
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_percentual_ideal AS 
         SELECT *
-        FROM """ || VAR_PRJ_RAW || """.teste.raw_percentual_ideal_arq""";
+        FROM (
+            SELECT '51315' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
+            SELECT '46784' AS codigo, CAST(15.0 AS NUMERIC) AS percentual_ideal UNION ALL
+            --SELECT '57893' AS codigo, CAST(10.0 AS NUMERIC) AS percentual_ideal UNION ALL
+            SELECT '65342' AS codigo, CAST(21.0 AS NUMERIC) AS percentual_ideal
+        ) AS origem_percentual_ideal_arq""";
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_trg AS 
