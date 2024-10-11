@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
+CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia789987`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
 BEGIN
 
     DECLARE VAR_PROCEDURE DEFAULT 'prc_load_tb_abrangencia';
@@ -19,7 +19,7 @@ BEGIN
         --: Variaveis desenvolvimento
         --SET VAR_DELTA_INI = ;
         --SET VAR_DELTA_FIM = ;
-        --SET VAR_ID_CARD = '';
+        SET VAR_ID_CARD = '789987';
         ------------------------------------------
 
 
@@ -38,7 +38,7 @@ BEGIN
         CREATE TEMP TABLE tmp_material_promo_trg AS 
         SELECT DISTINCT
             chave
-            , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
+            , TRIM(JSON_EXTRACT_SCALAR(material, '$.cod')) AS codigo
             , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_trg, 'None', '"None"'))) AS material
@@ -49,7 +49,7 @@ BEGIN
         CREATE TEMP TABLE tmp_material_promo_bnf AS 
         SELECT DISTINCT
             chave
-            , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
+            , TRIM(JSON_EXTRACT_SCALAR(material, '$.cod')) AS codigo
             , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
             , JSON_EXTRACT_SCALAR(material, '$.perc') AS percentual
         FROM tmp_origem_material_promo
