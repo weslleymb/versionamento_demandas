@@ -10,30 +10,37 @@
 
 CALL `sandbox-gcam.sp.prc_load_tb_abrangencia`('sandbox-gcam', 'sandbox-gcam');
 
-[GCAM - Divergência de Dados  - Abrangência]
-Desconto divergente
-Gerou o card 123
-123-tb_abrangencia-desconto_ideal
-de origem_percentual_ideal_arq para origem_percentual_ideal_hub
-CALL `sandbox-gcam.sp.prc_load_tb_abrangencia123`('sandbox-gcam', 'sandbox-gcam');
-SELECT * FROM sandbox-gcam.teste.tb_abrangencia WHERE codigo = '57893';
-SELECT * FROM sandbox-gcam.teste.tb_abrangencia123 WHERE codigo = '57893';
-  SELECT * FROM sandbox-gcam.teste.tb_abrangencia123 WHERE chave = 'ABC-123';
-
-[GCAM - Melhoria  - Abrangência]
-Marcador catálogo
-Gerou o card 456
-456-tb_abrangencia-flag_catalogo
-inclusao campo catalogo
-CALL `sandbox-gcam.sp.prc_load_tb_abrangencia456`('sandbox-gcam', 'sandbox-gcam');
 SELECT * FROM sandbox-gcam.teste.tb_abrangencia;
-SELECT * FROM sandbox-gcam.teste.tb_abrangencia456;
 
-[GCAM - Divergência de Dados  - Abrangência]
-Duplicidade
-Gerou o card 789
-789-tb_abrangencia-dedup_sku_espaco
-remocao espaco codigo
-CALL `sandbox-gcam.sp.prc_load_tb_abrangencia789`('sandbox-gcam', 'sandbox-gcam');
-SELECT * FROM sandbox-gcam.teste.tb_abrangencia WHERE chave = 'ABC-123';
-SELECT * FROM sandbox-gcam.teste.tb_abrangencia789 WHERE chave = 'ABC-123';
+#[GCAM - Melhoria  - Abrangência]
+--Marcador catálogo
+--Gerou o card 123765
+--123765-tb_abrangencia-flag_catalogo
+--inclusao campo catalogo
+
+CALL `sandbox-gcam.sp.prc_load_tb_abrangencia123765`('sandbox-gcam', 'sandbox-gcam');
+
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia123765;
+
+
+#[GCAM - Divergência de Dados  - Abrangência]
+--Desconto divergente
+--Gerou o card 456876
+--456876-tb_abrangencia-desconto_ideal
+--de origem_percentual_ideal_arq para origem_percentual_ideal_hub
+
+CALL `sandbox-gcam.sp.prc_load_tb_abrangencia456876`('sandbox-gcam', 'sandbox-gcam');
+
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia456876;
+
+
+#[GCAM - Divergência de Dados  - Abrangência]
+--Duplicidade
+--Gerou o card 789987
+--789987-tb_abrangencia-dedup_sku_espaco
+--remocao espaco codigo
+
+CALL `sandbox-gcam.sp.prc_load_tb_abrangencia789987`('sandbox-gcam', 'sandbox-gcam');
+
+SELECT * FROM sandbox-gcam.teste.tb_abrangencia789987 WHERE chave = 'ABC-123';
+
