@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE `teste.tb_abrangencia789987` (
+CREATE TABLE `teste.tb_abrangencia` (
     chave             STRING,
     codigo            STRING,
     flg_trg           BOOLEAN,
