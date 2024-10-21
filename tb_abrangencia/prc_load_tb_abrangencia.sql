@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia789987`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
+CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
 BEGIN
 
     DECLARE VAR_PROCEDURE DEFAULT 'prc_load_tb_abrangencia';
@@ -19,7 +19,7 @@ BEGIN
         --: Variaveis desenvolvimento
         --SET VAR_DELTA_INI = ;
         --SET VAR_DELTA_FIM = ;
-        SET VAR_ID_CARD = '789987';
+        --SET VAR_ID_CARD = '';
         ------------------------------------------
 
 
