@@ -39,6 +39,7 @@ BEGIN
         SELECT DISTINCT
             chave
             , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
+            , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_trg, 'None', '"None"'))) AS material
         ;
@@ -49,6 +50,7 @@ BEGIN
         SELECT DISTINCT
             chave
             , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
+            , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
             , JSON_EXTRACT_SCALAR(material, '$.perc') AS percentual
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_bnf, 'None', '"None"'))) AS material
