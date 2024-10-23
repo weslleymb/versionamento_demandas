@@ -38,7 +38,7 @@ BEGIN
         CREATE TEMP TABLE tmp_material_promo_trg AS 
         SELECT DISTINCT
             chave
-            , TRIM(JSON_EXTRACT_SCALAR(material, '$.cod')) AS codigo
+            , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
             , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_trg, 'None', '"None"'))) AS material
@@ -49,7 +49,7 @@ BEGIN
         CREATE TEMP TABLE tmp_material_promo_bnf AS 
         SELECT DISTINCT
             chave
-            , TRIM(JSON_EXTRACT_SCALAR(material, '$.cod')) AS codigo
+            , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
             , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
             , JSON_EXTRACT_SCALAR(material, '$.perc') AS percentual
         FROM tmp_origem_material_promo
