@@ -27,7 +27,7 @@ BEGIN
         --: Variaveis desenvolvimento
         --SET VAR_DELTA_INI = ;
         --SET VAR_DELTA_FIM = ;
-        --SET VAR_TABELA = '123765';
+        --SET VAR_TABELA = '';
         ------------------------------------------
 
 
