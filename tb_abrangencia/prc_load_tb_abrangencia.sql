@@ -1,4 +1,13 @@
-CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
+CREATE OR REPLACE TABLE `teste.tb_abrangencia` (
+    chave             STRING,
+    codigo            STRING,
+    flg_trg           BOOLEAN,
+    flg_bnf           BOOLEAN,
+    percentual_ideal  NUMERIC,
+    catalogo          BOOLEAN
+);
+
+CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia123765`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
 BEGIN
 
     DECLARE VAR_PROCEDURE DEFAULT 'prc_load_tb_abrangencia';
@@ -7,7 +16,6 @@ BEGIN
     DECLARE VAR_TABELA STRING;
     DECLARE VAR_INICIO DATE;
     DECLARE VAR_DTH_INICIO TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-    DECLARE VAR_ID_CARD STRING DEFAULT '';
 
     -- Inicio do bloco de TRY/CATCH (tratamento de erros)
     BEGIN
@@ -19,7 +27,7 @@ BEGIN
         --: Variaveis desenvolvimento
         --SET VAR_DELTA_INI = ;
         --SET VAR_DELTA_FIM = ;
-        --SET VAR_ID_CARD = '';
+        --SET VAR_TABELA = '123765';
         ------------------------------------------
 
 
@@ -39,6 +47,7 @@ BEGIN
         SELECT DISTINCT
             chave
             , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
+            , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_trg, 'None', '"None"'))) AS material
         ;
@@ -49,6 +58,7 @@ BEGIN
         SELECT DISTINCT
             chave
             , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
+            , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
             , JSON_EXTRACT_SCALAR(material, '$.perc') AS percentual
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_bnf, 'None', '"None"'))) AS material
@@ -57,9 +67,9 @@ BEGIN
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_base AS 
-        SELECT DISTINCT chave, codigo FROM tmp_material_promo_trg
+        SELECT DISTINCT chave, codigo, catalogo FROM tmp_material_promo_trg
         UNION DISTINCT
-        SELECT DISTINCT chave, codigo FROM tmp_material_promo_bnf
+        SELECT DISTINCT chave, codigo, catalogo FROM tmp_material_promo_bnf
         ;
         """;
 
@@ -71,6 +81,7 @@ BEGIN
             , CASE WHEN trg.codigo IS NULL THEN FALSE ELSE TRUE END AS flg_trg
             , CASE WHEN bnf.codigo IS NULL THEN FALSE ELSE TRUE END AS flg_bnf
             , IFNULL(prc.percentual_ideal, CAST(bnf.percentual AS NUMERIC)) AS percentual_ideal
+            , base.catalogo
         FROM tmp_material_promo_base AS base
 
             LEFT JOIN tmp_material_promo_trg AS trg
@@ -91,7 +102,7 @@ BEGIN
 
         EXECUTE IMMEDIATE """
         INSERT INTO `""" || VAR_PRJ_TRUSTED || """.teste.tb_abrangencia""" || VAR_ID_CARD || """` 
-        SELECT DISTINCT chave, codigo, flg_trg, flg_bnf, percentual_ideal
+        SELECT DISTINCT chave, codigo, flg_trg, flg_bnf, percentual_ideal, catalogo
         FROM tmp_abrangencia AS origem
         """;
 
