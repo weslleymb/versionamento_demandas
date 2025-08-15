@@ -1,12 +1,4 @@
-CREATE OR REPLACE TABLE `teste.tb_abrangencia` (
-    chave             STRING,
-    codigo            STRING,
-    flg_trg           BOOLEAN,
-    flg_bnf           BOOLEAN,
-    percentual_ideal  NUMERIC
-);
-
-CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia456876`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
+CREATE OR REPLACE PROCEDURE `sp.prc_load_tb_abrangencia`(VAR_PRJ_RAW STRING, VAR_PRJ_TRUSTED STRING)
 BEGIN
 
     DECLARE VAR_PROCEDURE DEFAULT 'prc_load_tb_abrangencia';
