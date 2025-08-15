@@ -32,14 +32,13 @@ BEGIN
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_percentual_ideal AS 
         SELECT *
-        FROM """ || VAR_PRJ_RAW || """.teste.raw_percentual_ideal_hub""";
+        FROM """ || VAR_PRJ_RAW || """.teste.raw_percentual_ideal_arq""";
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_trg AS 
         SELECT DISTINCT
             chave
             , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
-            , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_trg, 'None', '"None"'))) AS material
         ;
@@ -50,7 +49,6 @@ BEGIN
         SELECT DISTINCT
             chave
             , JSON_EXTRACT_SCALAR(material, '$.cod') AS codigo
-            , CAST(JSON_EXTRACT_SCALAR(material, '$.cat') AS BOOLEAN) AS catalogo
             , JSON_EXTRACT_SCALAR(material, '$.perc') AS percentual
         FROM tmp_origem_material_promo
             LEFT JOIN UNNEST(JSON_EXTRACT_ARRAY(REPLACE(material_bnf, 'None', '"None"'))) AS material
