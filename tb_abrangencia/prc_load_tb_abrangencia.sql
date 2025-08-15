@@ -19,7 +19,7 @@ BEGIN
         --: Variaveis desenvolvimento
         --SET VAR_DELTA_INI = ;
         --SET VAR_DELTA_FIM = ;
-        --SET VAR_ID_CARD = '';
+        --SET VAR_TABELA = '';
         ------------------------------------------
 
 
@@ -32,7 +32,7 @@ BEGIN
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_percentual_ideal AS 
         SELECT *
-        FROM """ || VAR_PRJ_RAW || """.teste.raw_percentual_ideal_arq""";
+        FROM """ || VAR_PRJ_RAW || """.teste.raw_percentual_ideal_hub""";
 
         EXECUTE IMMEDIATE """
         CREATE TEMP TABLE tmp_material_promo_trg AS 
